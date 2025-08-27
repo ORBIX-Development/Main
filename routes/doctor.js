@@ -32,6 +32,7 @@ app.post("/insert", (req, res) => {
             console.log(err);
         }else{
             console.log("Novo Cliente Inserido ao BD!");
+            res.send("Novo Cliente Inserido ao BD!");
             res.send(results);
         }
     });
@@ -45,6 +46,7 @@ app.put("/insert/:id", (req, res) => {
             console.log(err);
         }else{
             console.log("Médico atualizado com sucesso!");
+            res.send("Médico atualizado com sucesso!");
             res.send(results);
         }
     });

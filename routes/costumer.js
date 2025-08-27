@@ -45,6 +45,7 @@ app.put("/insert/:id", (req, res) => {
             console.log(err);
         }else{
             console.log("Cliente atualizado com sucesso!");
+            res.send("Cliente atualizado com sucesso!");
             res.send(results);
         }
     });
