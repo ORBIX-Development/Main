@@ -4,6 +4,7 @@ const cors = require("cors");
 const body = require("body-parser");
 const doctorRoutes = require("./routes/doctor");
 const costumerRoutes = require("./routes/costumer");
+const schedulingRoutes = require("./routes/scheduling");
 
 
 app.use(cors());
@@ -11,6 +12,7 @@ app.use(body.json());
 
 app.use('/doctor', doctorRoutes);
 app.use('/costumer', costumerRoutes);
+app.use('/scheduling',schedulingRoutes);
 
 app.listen(8080, function(){
     console.log("Servidor rodando na porta 8080!");

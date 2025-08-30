@@ -3,7 +3,7 @@ const conection = mysql.createConnection(
     {
         host:"localhost",
         user:"root",
-        password:"12345",
+        password:"123456",
         database:"obx",
     }
 );
