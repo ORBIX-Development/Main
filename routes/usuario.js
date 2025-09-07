@@ -1,9 +1,9 @@
-const bd = require('../conection');
+const bd = require('../connection');
 const express = require('express');
 const app = express.Router();
 
 app.get("/", (req, res) => {
-    const select = "SELECT * from costumer";
+    const select = "SELECT * from usuario";
     bd.query(select, function(err, results){
         if(err){
             console.log(err);
@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/:id", (req,res)=>{
-    const select = "SELECT * from costumer where id_cliente = ? ";
+    const select = "SELECT * from usuario where id = ? ";
     bd.query(select, [req.params.id], function(err,results){
         if(err){
             console.log(err);
@@ -25,22 +25,22 @@ app.get("/:id", (req,res)=>{
 });
 
 app.post("/insert", (req, res) => {
-    const insert = "INSERT INTO costumer SET CPF_CNPJ = ?, nome = ?";
+    const insert = "INSERT INTO usuario SET nome = ? ,email = ?, senha = ?,cargo = ?, cod_doc = ?";
     const body = req.body;
-    bd.query(insert, [body.CPF_CNPJ,body.nome], function(err, results){
+    bd.query(insert, [body.nome,body.email,body.senha,body.cargo,body.cod_doc], function(err, results){
         if(err){
             console.log(err);
         }else{
-            console.log("Novo Cliente Inserido ao BD!");
+            console.log("Novo Usuário Inserido ao BD!");
             res.send(results);
         }
     });
 });
 
 app.put("/insert/:id", (req, res) => {
-    const insert = "UPDATE costumer SET CPF_CNPJ = ?, nome = ? WHERE id_cliente=?";
+    const update = "UPDATE usuario nome = ? ,email = ?, senha = ?, cod_doc = ? WHERE id=?";
     const body = req.body;
-    bd.query(insert, [body.CPF_CNPJ,body.nome,req.params.id], function(err, results){
+    bd.query(update, [body.nome,body.email,body.senha,body.cod_doc,req.params.id], function(err, results){
         if(err){
             console.log(err);
         }else{
@@ -52,7 +52,7 @@ app.put("/insert/:id", (req, res) => {
 });
 
 app.delete("/del/:id", (req,res)=>{
-    const del = "DELETE FROM costumer WHERE id_cliente = ?";
+    const del = "DELETE FROM usuario WHERE id = ?";
     bd.query(del, [req.params.id], function(err, results){
         if(err){
             console.log(err);
