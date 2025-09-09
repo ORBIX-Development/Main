@@ -31,7 +31,8 @@ app.post("/insert", (req,res)=>{
         if(err){
             console.log(err);
         }else{
-            res.send(results);
+            console.log("Atendimento Postado!")
+            res.send("Atendimento Postado!");
         };
     });
      
@@ -44,6 +45,7 @@ app.put("/insert/:id", (req,res)=>{
         if(err){
             console.log(err);
         }else{
+            console.log("Atendimento Atualizado!")
             res.send(results);
         };
     });
@@ -55,7 +57,8 @@ app.delete("/del/:id", (req,res)=>{
         if(err){
             console.log(err);
         }else{
-            res.send(results);
+            console.log("Atendimento Deletado!")
+            res.send("Atendimento Deletado!");
         };
     });
 });

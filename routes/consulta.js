@@ -30,7 +30,7 @@ app.post("/insert",(req,res) =>{
             console.log(err);
         }else{
             console.log("Consulta Registrada!")
-            res.send(results);
+            res.send("Consulta Registrada!");
         }
     });
 
@@ -43,6 +43,7 @@ app.put("/insert/:id",(req,res) =>{
         if(err){
             console.log(err);
         }else{
+            console.log("Consulta Atualizada!")
             res.send(results);
         }
     });
@@ -55,7 +56,8 @@ app.delete("/del/:id",(req,res) =>{
         if(err){
             console.log(err);
         }else{
-            res.send(results);
+            console.log("Consulta Deletada!")
+            res.send("Consulta Deletada!");
         }
     });
 

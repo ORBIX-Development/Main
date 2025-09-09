@@ -32,7 +32,7 @@ app.post("/insert", (req, res) => {
             console.log(err);
         }else{
             console.log("Novo Agendamento Inserido ao BD!");
-            res.send(results);
+            res.send("Novo Agendamento Inserido ao BD!");
         }
     });
 });
@@ -56,6 +56,7 @@ app.delete("/del/:id", (req,res)=>{
         if(err){
             console.log(err);
         }else{
+            console.log("Agendamento deletado!")
             res.send("Agendamento deletado!");
             
         }

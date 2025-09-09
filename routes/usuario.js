@@ -31,21 +31,20 @@ app.post("/insert", (req, res) => {
         if(err){
             console.log(err);
         }else{
-            console.log("Novo Usuário Inserido ao BD!");
-            res.send(results);
+            console.log("Novo Usuário Inserido!");
+            res.send("Novo Usuário Inserido!");
         }
     });
 });
 
 app.put("/insert/:id", (req, res) => {
-    const update = "UPDATE usuario nome = ? ,email = ?, senha = ?, cod_doc = ? WHERE id=?";
+    const update = "UPDATE usuario SET nome = ? ,email = ?, senha = ?, cod_doc = ? WHERE id=?";
     const body = req.body;
     bd.query(update, [body.nome,body.email,body.senha,body.cod_doc,req.params.id], function(err, results){
         if(err){
             console.log(err);
         }else{
-            console.log("Cliente atualizado com sucesso!");
-            res.send("Cliente atualizado com sucesso!");
+            console.log("Cliente atualizado!");
             res.send(results);
         }
     });
@@ -57,7 +56,8 @@ app.delete("/del/:id", (req,res)=>{
         if(err){
             console.log(err);
         }else{
-            res.send("Cliente deletado!");
+            console.log("Cliente Deletado!")
+            res.send("Cliente Deletado!");
             
         }
     });
