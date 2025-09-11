@@ -8,12 +8,12 @@ API REST, arquitetada para fornecer endpoints eficientes e uma base sólida para
 
 Execute esses comandos no terminal:
 
-
+```
 git clone https://github.com/ORBIX-Development/Main.git
 
 npm install
 
-
+```
 Para executar a aplicação e inicializar o servidor, utilize o comando node app.js no terminal. 
 
 ---
