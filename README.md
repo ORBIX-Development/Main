@@ -1,6 +1,6 @@
 # API CRUD (NOME DO PROJETO)
 
-API REST, arquitetada para fornecer endpoints eficientes e uma base sólida para integração e  crescimento da aplicação, através das requisições **CRUD (Create, Read, Update, Delete).
+API REST, arquitetada para fornecer endpoints eficientes e uma base sólida para integração e  crescimento da aplicação, através das requisições **CRUD** (Create, Read, Update, Delete).
 
 
 
