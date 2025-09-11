@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-const senha = require("./senha");//Import para rodar com o node app. Caso for usar apena o docker, essa linha pode ser excluida
+const senha = require("./senha");//Import para rodar com o node app. Caso for usar apenas o docker, essa linha pode ser excluida
 const connection = mysql.createConnection(
     {
         host: process.env.DB_HOST || "localhost",
@@ -9,4 +9,4 @@ const connection = mysql.createConnection(
     }
 );
 
-module.exports = connection;
+module.exports = connection; 
