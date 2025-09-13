@@ -22,6 +22,17 @@ app.get("/:id", (req,res) =>{
         }
     });
 });
+app.get("/:date", (req,res) =>{
+    body = req.body
+    const select = "SELECT * FROM consulta WHERE =?";
+    bd.query(select,[req.params.id], function(err,results){
+        if(err){
+            console.log(err);
+        }else{
+            res.send(results);
+        }
+    });
+});
 app.post("/insert",(req,res) =>{
     const insert= "INSERT INTO consulta SET status_consulta = ?,data_consulta = ?, id_medico = ?, id_cliente = ?";
     const body = req.body;
