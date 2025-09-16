@@ -6,6 +6,7 @@ const usuarioRoutes = require("./routes/usuario");
 const atendimentoRoutes = require("./routes/atendimento");
 const agendamentoRoutes = require("./routes/agendamento");
 const consultaRoutes = require("./routes/consulta");
+const statusRoutes = require("./routes/status");
 
 
 app.use(cors());
@@ -15,7 +16,8 @@ app.use('/usuario', usuarioRoutes);
 app.use('/atendimento', atendimentoRoutes);
 app.use('/agendamento',agendamentoRoutes);
 app.use('/consulta',consultaRoutes);
+app.use('/status',statusRoutes);
 
-app.listen(8080, function(){
-    console.log("Servidor rodando na porta 8080!");
+app.listen(3000, function(){
+    console.log("Servidor rodando na porta 3000!");
 });

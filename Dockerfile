@@ -21,11 +21,11 @@ RUN chown -R nodejs:nodejs /app
 USER nodejs
 # 
 # Expõe a porta que a aplicação vai usar
-EXPOSE 8080
+EXPOSE 3000
 
 # Define variáveis de ambiente
 ENV NODE_ENV=production
-ENV PORT=8080    
+ENV PORT=3000  
 
 # Comando para executar a aplicação
 CMD ["node", "app.js"]
