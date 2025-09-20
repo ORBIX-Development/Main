@@ -21,13 +21,13 @@ Abra no seu Cliente de API as rotas abaixo:
 
 
 
-|      Usuarios     |        Agendamento     |          Consulta    | Atendimento          |
-|-------------------|:----------------------:|---------------------:|---------------------:|
-|/usuarios          | /agendamento           | /consulta            |/atendimento          |
-|/usuarios/id       | /agendamento/id        |   /consulta/id       |/atendimento/id       |
-|/usuarios/insert   | /agendamento/insert    |  /consulta/insert    |/atendimento/insert   |
-|/usuarios/insert/id| /agendamento/insert/id | /consulta/insert/id  |/atendimento/insert/id|
-|/usuarios/del/id   | /agendamento/del/id    |   /consulta/del/id   |/atendimento/del/id   |
+|     Usuarios      |      Agendamento      |     Consulta      |      Atendimento     |
+|-------------------|-----------------------|------------------ |----------------------|
+|/usuarios          | /agendamento          |/consulta          |/atendimento          |
+|/usuarios/id       | /agendamento/id       |/consulta/id       |/atendimento/id       |
+|/usuarios/insert   | /agendamento/insert   |/consulta/insert   |/atendimento/insert   |
+|/usuarios/insert/id| /agendamento/insert/id|/consulta/insert/id|/atendimento/insert/id|
+|/usuarios/del/id   | /agendamento/del/id   |/consulta/del/id   |/atendimento/del/id   |
 
 
 ## Arquivos principais
@@ -50,5 +50,6 @@ Cada rota é responsável por expor os endpoints de **CRUD (Create, Read, Update
 * Mysql2
 * Cors
 * Express
+
 
 
