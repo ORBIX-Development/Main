@@ -18,6 +18,6 @@ app.use('/agendamento',agendamentoRoutes);
 app.use('/consulta',consultaRoutes);
 app.use('/status',statusRoutes);
 
-app.listen(3000, function(){
+app.listen(3000, ()=>{
     console.log("Servidor rodando na porta 3000!");
 });
