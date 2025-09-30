@@ -1,50 +1,61 @@
 const bd = require('../connection');
 const express = require('express');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 const app = express.Router();
 
-app.get("/", (req, res) => {
+app.get("/", async(req, res) => {
     const select = "SELECT * from usuario";
-    bd.query(select, function(err, results){
-        if(err){
-            console.log(err);
-        }else{
-            res.send(results);
-        }
-    });
-});
-
-app.get("/:id", (req,res)=>{
-    const select = "SELECT * from usuario where id = ? ";
-    bd.query(select, [req.params.id], function(err,results){
-        if(err){
-            console.log(err);
-        }else{
-            res.send(results);
-        }
-    });
-});
-
-app.post("/insert", async (req, res) => {
-    try{ 
-        const body = req.body;
-        const hashPassword = await bcrypt.hash(body.senha, 10);
-        const insert = "INSERT INTO usuario SET nome = ? ,email = ?, senha = ?,cargo = ?, cod_doc = ?";
-
-        bd.query(insert, [body.nome,body.email,hashPassword,body.cargo,body.cod_doc],
-             function(err, results){
-        if(err){
-            console.log(err);
-            res.status(500).send("Erro ao inserir usuário");
-        }else{
-            console.log("Novo Usuário Inserido!");
-            res.send("Novo Usuário Inserido!");
-        }
-    });
-       } catch (err){
-        console.error(err);
-        res.status(500).send("Erro ao processar a requisição");
+    try{
+        const [results] = await bd.query(select);
+        res.send(results);
+        
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (usuario)!");
     }
+});
+
+
+app.get("/:id", async (req,res)=>{
+    const select = "SELECT * from usuario where id = ? ";
+    try{
+        const [results] =  await bd.query(select, [req.params.id]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (usuario)!")
+    }
+    await bd.query(select, [req.params.id], function(err,results){
+        if(err){
+            console.log(err);
+        }else{
+            res.send(results);
+        }
+    });
+});
+
+app.post("/register", async (req, res) => { 
+    const insert = "INSERT INTO usuario (nome,email,senha,cargo,cod_doc) VALUES (?,?,?,?,?)";
+    const {nome,email,senha,cargo,cod_doc} = req.body;
+    const hash = await bcrypt.hash(senha, 10);
+
+    await bd.query(insert, [nome,email,hash,cargo,cod_doc]);
+    res.json({message:"Usuário Registrado Com Sucesso!"})
+});
+
+app.post("/login", async (req, res) => { 
+    const {email,senha} = req.body;
+    const [rows] = await bd.query("SELECT * FROM usuarios WHERE email = ?", [email]);
+    if (rows.length === 0) return res.status(401).json({erros:"Usuário não encontrado"});
+
+    const user = rows[0];
+    const valid = await bcrypt.compare(senha, user.senha);
+    if(!valid) return res.status(401).json({erros:"Senha Incorreta"});
+
+    const token = jwt.sign({id: user.id,email: user.email,}, process.env.JWT_SECRET,{expiresIn:"1h"});
+    res.json({token})
+
 });
 
 app.put("/insert/:id", async (req, res) => {
@@ -70,17 +81,15 @@ app.put("/insert/:id", async (req, res) => {
     }
 });
 
-app.delete("/del/:id", (req,res)=>{
+app.delete("/del/:id", async(req,res)=>{
     const del = "DELETE FROM usuario WHERE id = ?";
-    bd.query(del, [req.params.id], function(err, results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Cliente Deletado!")
-            res.send("Cliente Deletado!");
-            
-        }
-    });
+    try{
+        bd.query(del, [req.params.id]);
+        res.send(results);
+    }catch{ 
+        console.log(err);
+        res.status(500).send("Erro ao deletar usuario")
+    }
     
 });
 

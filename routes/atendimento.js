@@ -2,65 +2,55 @@ const bd = require('../connection');
 const express = require('express');
 const app = express.Router();
 
-app.get("/", (req,res)=>{
+app.get("/", async(req,res)=>{
     const select = "SELECT *FROM atendimento";
-    bd.query(select,function(err, results){
-        if(err){
-            console.log(err);
-        }else{
-            res.send(results);
-        };
-    });
+    try{
+        const [results]= bd.query(select);
+        res.send(results)
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (atendimento)!")};
 });
 
-app.get("/:id", (req,res)=>{
+app.get("/:id", async(req,res)=>{
     const select = "SELECT * FROM atendimento WHERE id =?";
-    bd.query(select,req.params.id,function(err, results){
-        if(err){
-            console.log(err);
-        }else{
-            res.send(results);
-        };
-    });
+    try{
+        const [results] = await bd.query(select,req.params.id)
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (atendimento)!")};
 });
 
-app.post("/insert", (req,res)=>{
-    const insert = "INSERT INTO atendimento SET nome = ?,datachamado = ?,status_atendimento = ? ,descricao = ?, id_cliente = ?"
-    const body = req.body;
-    bd.query(insert,[body.nome,body.datachamado,body.status_atendimento,body.descricao,body.id_cliente], function(err,results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Atendimento Postado!")
-            res.send("Atendimento Postado!");
-        };
-    });
-     
+app.post("/insert", async(req,res)=>{
+    const insert = "INSERT INTO atendimento (nome,datachamado,status_atendimento,id_cliente) VALUES (?,?,?,?)";
+    const {nome,datachamado,status_atendimento,descricao,id_cliente} = req.body;
+    try{
+        const [results] = await bd.query(insert,[nome,datachamado,status_atendimento,descricao,id_cliente]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao inserir dados na tabela (atendimento)!")};
 });
 
-app.put("/insert/:id", (req,res)=>{
-    const update = "UPDATE atendimento SET nome = ?,datachamado = ?,status_atendimento = ? ,descricao = ?, id_cliente = ?";
-    const body = req.body;
-    bd.query(update,[body.nome,body.datachamado,body.status_atendimento,body.descricao,body.id_cliente, req.params.id] , function(err,results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Atendimento Atualizado!")
-            res.send(results);
-        };
-    });
+app.put("/insert/:id", async(req,res)=>{
+    const update = "UPDATE atendimento SET nome = ?,datachamado = ?,status_atendimento = ? ,descricao = ?, id_cliente = ? WHERE id=?";
+    const {nome,datachamado,status_atendimento,descricao,id_cliente} = req.body;
+    try{
+        bd.query(update,[nome,datachamado,status_atendimento,descricao,id_cliente, req.params.id]);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao atualizar dados da tabela (atendimento)!")};
 });
 
-app.delete("/del/:id", (req,res)=>{
-    const insert = "DELETE FROM atendimento where id = ? ";
-    bd.query(insert,[req.params.id],function(err,results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Atendimento Deletado!")
-            res.send("Atendimento Deletado!");
-        };
-    });
+app.delete("/del/:id", async(req,res)=>{
+    const del = "DELETE FROM atendimento where id = ? ";
+    try{
+    const [results] = await bd.query(del,[req.params.id]);
+    res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao deletar atendimento!")};
 });
 
 

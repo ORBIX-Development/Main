@@ -3,66 +3,57 @@ const express = require('express');
 const app = express.Router();
 
 
-app.get("/", (req,res)=>{
+app.get("/", async(req,res)=>{
     const select = "SELECT * FROM consulta";
-    bd.query(select, function(err,results){
-        if(err){
-            console.log(err);
-        }else{
-            res.send(results);
-        }
-    });
+    try{
+        const [results] = await bd.query(select);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (consulta)")};
 });
 
-app.get("/:id", (req,res)=>{
+app.get("/:id", async(req,res)=>{
     const select = "SELECT * FROM consulta WHERE id= ?";
-    bd.query(select,[req.params.id], function(err,results){
-        if(err){
-            console.log(err);
-        }else{
-            res.send(results);
-        }
-    });
+    try{
+        const [results]= await bd.query(select,[req.params.id]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (consulta)")};
 });
 
-app.post("/insert",(req,res)=>{
-    const insert= "INSERT INTO consulta SET status_consulta = ?,data_consulta = ?, id_medico = ?, id_cliente = ?";
-    const body = req.body;
-    bd.query(insert,[body.status_consulta,body.data_consulta,body.id_medico,body.id_cliente],function(err,results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Consulta Registrada!")
-            res.send("Consulta Registrada!");
-        }
-    });
-
+app.post("/insert", async(req,res)=>{
+    const insert= "INSERT INTO consulta (status_consulta,data_consulta,id_medico,id_medico) VALUES (?,?,?,?)";
+    const {status_consulta,data_consulta,id_medico,id_cliente} = req.body;
+    try{
+        const [results]= await bd.query(insert,[status_consulta,data_consulta,id_medico,id_cliente]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao inserir dados na tabela (consulta)")};
 });
 
-app.put("/insert/:id",(req,res)=>{
+app.put("/insert/:id", async(req,res)=>{
     const update= "UPDATE consulta SET status_consulta = ?,data_consulta = ?, id_medico = ?, id_cliente = ? WHERE id =?";
-    const body = req.body;
-    bd.query(update,[body.status_consulta,body.data_consulta,body.id_medico,body.id_cliente,req.params.id],function(err,results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Consulta Atualizada!")
-            res.send(results);
-        }
-    });
-
+    const {status_consulta,data_consulta,id_medico,id_cliente} = req.body;
+    try{
+        const [results] = await bd.query(update,[status_consulta,data_consulta,id_medico,id_cliente,req.params.id])
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao atualizar dados da tabela (consulta)")};
 });
 
-app.delete("/del/:id",(req,res)=>{
+app.delete("/del/:id", async(req,res)=>{
     const del= "DELETE FROM consulta WHERE id =?";
-    bd.query(del,[req.params.id],function(err,results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Consulta Deletada!")
-            res.send("Consulta Deletada!");
-        }
-    });
+    try{
+        const [results]= await bd.query(del,[req.params.id]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao deletar consulta")};
+       
 
 });
 

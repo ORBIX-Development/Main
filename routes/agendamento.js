@@ -2,65 +2,59 @@ const bd = require('../connection');
 const express = require('express');
 const app = express.Router();
 
-app.get("/", (req, res) => {
+app.get("/", async(req, res) => {
     const select = "SELECT * from agendamento";
-    bd.query(select, function(err, results){
-        if(err){
-            console.log(err);
-        }else{
-            res.send(results);
-        }
-    });
+    try{
+    const [results]= await bd.query(select);
+    res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (agendamento)!")};
 });
 
-app.get("/:id", (req,res)=>{
+app.get("/:id", async(req,res)=>{
     const select = "SELECT * from agendamento where id = ? ";
-    bd.query(select, [req.params.id], function(err,results){
-        if(err){
-            console.log(err);
-        }else{ 
-            res.send(results);
-        }
-    });
+    try{
+    const [results] = await bd.query(select, [req.params.id])
+        res.send(results)
+    }catch(err){   
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (agendamento)!")};
 });
 
-app.post("/insert", (req, res) => {
-    const insert = "INSERT INTO agendamento SET data_dia = ?, id_usuario = ?";
-    const body = req.body;
-    bd.query(insert, [body.data_dia,body.id_usuario], function(err, results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Novo Agendamento Inserido ao BD!");
-            res.send("Novo Agendamento Inserido ao BD!");
-        }
-    });
+
+app.post("/insert", async(req, res) => {
+    const insert = "INSERT INTO agendamento (data_dia,id_usuario) VALUES (?,?)";
+    const {data_dia,id_usuario} = req.body;
+    try{
+        const results = await bd.query(insert, [data_dia,id_usuario]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao inserir dados na tabela (usuario)!")};
 });
 
-app.put("/insert/:id", (req, res) => {
+app.put("/insert/:id", async(req, res) => {
     const update = "UPDATE agendamento SET data_dia = ?, id_usuario = ? WHERE id=?";
-    const body = req.body;
-    bd.query(update, [body.data_dia,body.id_usuario,req.params.id], function(err, results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Agendamento atualizado!");
-            res.send(results);
-        }
-    });
+    const {data_dia,id_usuario} = req.body;
+    try{
+    const [results] = await bd.query(update, [data_dia,id_usuario,req.params.id]);
+    res.send(results)
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao inserir dados na tabela (usuario)!")};
+
 });
 
-app.delete("/del/:id", (req,res)=>{
+app.delete("/del/:id", async(req,res)=>{
+
     const del = "DELETE FROM agendamento WHERE id = ?";
-    bd.query(del, [req.params.id], function(err, results){
-        if(err){
-            console.log(err);
-        }else{
-            console.log("Agendamento deletado!")
-            res.send("Agendamento deletado!");
-            
-        }
-    });
+    try{
+        const [results] = await bd.query(del, [req.params.id]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao deletar agendamento")};
     
 });
 

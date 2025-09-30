@@ -1,10 +1,9 @@
-const mysql = require("mysql2");
-const senha = require("./senha");//Import para rodar com o node app. Caso for usar apenas o docker, essa linha pode ser excluida
-const connection = mysql.createConnection(
+const mysql = require("mysql2/promise");
+const connection = mysql.createPool(
     {
-        host: process.env.DB_HOST || "localhost",
-        user: process.env.DB_USER || "root",
-        password: process.env.DB_PASSWORD || senha(),
+        host: process.env.DB_HOST  || "localhost",
+        user: process.env.DB_USER || "root" ,
+        password: process.env.DB_PASSWORD || "12345",
         database: process.env.DB_NAME || "obx",
     }
 );
