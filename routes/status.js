@@ -3,7 +3,7 @@ const express = require('express');
 const app = express.Router();
 
 app.get("/:status_consulta", async(req, res)=>{
-    const select = "SELECT * FROM consulta WHERE status_consulta =?";
+    const select = "SELECT * FROM consultas WHERE status_consulta =?";
     const {status_consulta} = req.params;
     try{
         const [results] = await bd.query(select, [status_consulta]);
@@ -14,7 +14,7 @@ app.get("/:status_consulta", async(req, res)=>{
 });
 
 app.get("/date/:data_consulta", (req,res)=>{
-    const select = "SELECT * FROM consulta WHERE data_consulta=?";
+    const select = "SELECT * FROM consultas WHERE data_consulta=?";
     const {data_consulta} = req.params;
     try{
         const [results] = bd.query(select,[data_consulta]);

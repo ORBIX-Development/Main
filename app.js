@@ -3,12 +3,13 @@ const cors = require("cors");
 const cookieParser= require('cookie-parser');
 
 const usuarioRoutes = require("./routes/usuario");
-const atendimentoRoutes = require("./routes/atendimento");
-const agendamentoRoutes = require("./routes/agendamento");
-const consultaRoutes = require("./routes/consulta");
+const atendimentoRoutes = require("./routes/atendimentos");
+const agendamentoRoutes = require("./routes/agendamentos");
+const consultaRoutes = require("./routes/consultas");
 const statusRoutes = require("./routes/status");
+const receitasRoutes = require("./routes/receitas");
 
-const port = process.env.SERVER_PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3000;
 const app = express();
 
 
@@ -16,12 +17,13 @@ app.use(cors({credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/usuario', usuarioRoutes);
-app.use('/atendimento', atendimentoRoutes);
-app.use('/agendamento',agendamentoRoutes);
-app.use('/consulta',consultaRoutes);
+app.use('/usuarios', usuarioRoutes);
+app.use('/atendimentos', atendimentoRoutes);
+app.use('/agendamentos',agendamentoRoutes);
+app.use('/consultas',consultaRoutes);
+app.use('/receitas',receitasRoutes);
 app.use('/status',statusRoutes);
 
-app.listen(port, ()=>{
-    console.log(`Servidor rodando na porta ${port}!`);
+app.listen(PORT, ()=>{
+    console.log(`Servidor rodando na porta ${PORT}!`);
 });
