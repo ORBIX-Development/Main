@@ -2,12 +2,12 @@ const bd = require('../connection');
 const express = require('express');
 const app = express.Router();
 
-
 app.get("/", async(req,res)=>{
     const select = "SELECT * FROM receitas";
     try{
         const [results] = await bd.query(select);
         res.send(results);
+        
     }catch(err){
         console.log(err);
         res.status(500).send("Erro ao buscar dados da tabela (receitas)")};

@@ -23,8 +23,18 @@ app.get("/:id", async(req,res)=>{
         res.status(500).send("Erro ao buscar dados da tabela (consulta)")};
 });
 
+app.get("/med/:id", async(req,res)=>{
+    const select = "SELECT * FROM consultas WHERE id_medico= ?";
+    try{
+        const [results]= await bd.query(select,[req.params.id]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (consulta)")};
+});
+
 app.post("/insert", async(req,res)=>{
-    const insert= "INSERT INTO consultas (status_consulta,data_consulta,id_medico,id_medico) VALUES (?,?,?,?)";
+    const insert= "INSERT INTO consultas (status_consulta,data_consulta,id_medico,id_cliente) VALUES (?,?,?,?)";
     const {status_consulta,data_consulta,id_medico,id_cliente} = req.body;
     try{
         const [results]= await bd.query(insert,[status_consulta,data_consulta,id_medico,id_cliente]);

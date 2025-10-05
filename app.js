@@ -8,8 +8,9 @@ const agendamentoRoutes = require("./routes/agendamentos");
 const consultaRoutes = require("./routes/consultas");
 const statusRoutes = require("./routes/status");
 const receitasRoutes = require("./routes/receitas");
+require ('dotenv/config');
 
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = process.env.PORT;
 const app = express();
 
 

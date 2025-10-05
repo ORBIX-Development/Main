@@ -5,7 +5,7 @@ const app = express.Router();
 app.get("/", async(req,res)=>{
     const select = "SELECT * FROM atendimentos";
     try{
-        const [results] = bd.query(select);
+        const [results] = await bd.query(select);
         res.send(results);
     }catch(err){
         console.log(err);

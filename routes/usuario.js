@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const app = express.Router();
 
 app.get("/", async(req, res) => {
-    const select = "SELECT id, nome, email, cod_doc, cargo FROM usuarios";
+    const select = "SELECT id, nome, email, cod_doc, cargo, img FROM usuarios";
     try{
         const [results] = await bd.query(select);
         res.send(results);
@@ -27,13 +27,34 @@ app.get("/:id", async (req,res)=>{
         res.status(500).send("Erro ao buscar dados da tabela (usuarios)!")
     }
 });
+app.get("/med", async (req,res)=>{
+    const select = "SELECT nome, email, cod_doc, cargo FROM usuarios WHERE cargo = MEDICO ";
+    try{
+        const [results] =  await bd.query(select, [req.params.id]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (usuarios)!")
+    }
+});
+app.get("/cargo", async (req,res)=>{
+    const select = "SELECT nome, email, cod_doc, cargo FROM usuarios WHERE cargo =  ";
+    const {cargo} = req.body;
+    try{
+        const [results] =  await bd.query(select, [cargo]);
+        res.send(results);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Erro ao buscar dados da tabela (usuarios)!")
+    }
+});
 
 app.post("/register", async (req, res) => { 
-    const insert = "INSERT INTO usuarios (nome,email,senha,cargo,cod_doc) VALUES (?,?,?,?,?)";
-    const {nome,email,senha,cargo,cod_doc} = req.body;
+    const insert = "INSERT INTO usuarios (nome,email,senha,cargo,cod_doc,img) VALUES (?,?,?,?,?,?)";
+    const {nome,email,senha,cargo,cod_doc,img} = req.body;
     const hash = await bcrypt.hash(senha, 10);
 
-    await bd.query(insert, [nome,email,hash,cargo,cod_doc]);
+    await bd.query(insert, [nome,email,hash,cargo,cod_doc,img]);
         res.json({message:"Usuário Registrado Com Sucesso!"})
 });
 
