@@ -44,11 +44,11 @@ app.post("/insert", async(req,res)=>{
         res.status(500).send("Erro ao inserir dados na tabela (consulta)")};
 });
 
-app.put("/insert/:id", async(req,res)=>{
-    const update= "UPDATE consultas SET status_consulta = ?,data_consulta = ?, id_medico = ?, id_cliente = ? WHERE id =?";
-    const {status_consulta,data_consulta,id_medico,id_cliente} = req.body;
+app.put("/status/:id", async(req,res)=>{
+    const update= "UPDATE consultas SET status_consulta = ? WHERE id =?";
+    const {status_consulta} = req.body;
     try{
-        const [results] = await bd.query(update,[status_consulta,data_consulta,id_medico,id_cliente,req.params.id])
+        const [results] = await bd.query(update,[status_consulta,req.params.id])
         res.json("Consulta atualizada!");
     }catch(err){
         console.log(err);

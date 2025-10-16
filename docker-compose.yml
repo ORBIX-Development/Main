@@ -2,7 +2,7 @@ services:
   mysql:
     image: mysql:8.0
     restart: always
-    env_file: 
+    env_file:
       - .env
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -10,11 +10,20 @@ services:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_PORT_HOST}:3306"   # expõe o MySQL no host
+      - '${DB_PORT_HOST}:3306' # expõe o MySQL no host
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "mysql", "-u${DB_USER}", "-p${DB_PASSWORD}"]
+      test:
+        [
+          'CMD',
+          'mysqladmin',
+          'ping',
+          '-h',
+          'mysql',
+          '-u${DB_USER}',
+          '-p${DB_PASSWORD}',
+        ]
       interval: 10s
       retries: 10
       start_period: 60s
@@ -22,16 +31,16 @@ services:
   api:
     build: .
     restart: always
-    env_file: 
+    env_file:
       - .env
     ports:
-      - "3000:3000"  # Mapeia a porta da API
+      - '3000:3000' # Mapeia a porta da API
     environment:
-      DB_HOST: ${DB_HOST}      # força o host correto (nome do serviço)
+      DB_HOST: ${DB_HOST} # força o host correto (nome do serviço)
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
-      DB_PORT: 3306       # usa a porta interna do MySQL
+      DB_PORT: 3306 # usa a porta interna do MySQL
     depends_on:
       mysql:
         condition: service_healthy
