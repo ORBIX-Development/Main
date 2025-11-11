@@ -24,8 +24,13 @@ app.get('/:id', async (req, res) => {
   }
 });
 
+
 app.get('/med/:id', async (req, res) => {
-  const select = 'SELECT * FROM consultas WHERE id_medico= ?';
+  const select = `SELECT consultas.status_consulta, consultas.data_consulta , consultas.id_cliente, u2.nome
+	From consultas
+	INNER JOIN usuarios ON consultas.id_medico = usuarios.id
+  INNER JOIN usuarios u2 ON consultas.id_cliente = u2.id
+	WHERE usuarios.id=?`;
   try {
     const [results] = await bd.query(select, [req.params.id]);
     res.send(results);
