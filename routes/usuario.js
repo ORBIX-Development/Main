@@ -54,7 +54,7 @@ app.get('/search/:nome', async (req, res) => {
 });
 app.get('/med', async (req, res) => {
   const select =
-    'SELECT nome, email, cod_doc, cargo FROM usuarios WHERE cargo = MEDICO';
+    'SELECT id,nome, email, cod_doc, cargo FROM usuarios WHERE cargo = MEDICO';
   try {
     const [results] = await bd.query(select, [req.params.id]);
     res.send(results);

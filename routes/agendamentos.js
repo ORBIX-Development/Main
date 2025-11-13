@@ -25,10 +25,10 @@ app.get('/:id', async (req, res) => {
 });
 
 app.post('/insert', async (req, res) => {
-  const insert = 'INSERT INTO agendamentos (data_dia,id_usuario) VALUES (?,?)';
-  const { data_dia, id_usuario } = req.body;
+  const insert = 'INSERT INTO agendamentos (data_dia,id_cliente,descricao) VALUES (?,?,?)';
+  const { data_dia, id_cliente,descricao } = req.body;
   try {
-    const results = await bd.query(insert, [data_dia, id_usuario]);
+    const results = await bd.query(insert, [data_dia, id_cliente,descricao]);
     res.send(results);
     res.json('Agendamento solicitado!');
   } catch (err) {
