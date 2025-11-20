@@ -26,11 +26,15 @@ app.get('/:id', async (req, res) => {
 
 
 app.get('/med/:id', async (req, res) => {
-  const select = `SELECT consultas.status_consulta, consultas.data_consulta , consultas.id_cliente, u2.nome
+  const select = `SELECT consultas.id AS id_consulta, 
+                    consultas.status_consulta, 
+                    consultas.data_consulta, 
+                    consultas.id_cliente, 
+                    u2.nome
 	From consultas
 	INNER JOIN usuarios ON consultas.id_medico = usuarios.id
   INNER JOIN usuarios u2 ON consultas.id_cliente = u2.id
-	WHERE usuarios.id=?`;
+	WHERE usuarios.id=? AND consultas.status_consulta IN('NAO-REALIZADA','REALIZADA');`;
   try {
     const [results] = await bd.query(select, [req.params.id]);
     res.send(results);
@@ -79,12 +83,11 @@ app.put('/insert/:id', async (req, res) => {
 
 app.put('/status/:id', async (req, res) => {
   const update =
-    'UPDATE consultas SET status_consulta = ?,data_consulta = ? WHERE id =?';
-  const { status_consulta, data_consulta } = req.body;
+    'UPDATE consultas SET status_consulta = ? WHERE id =?';
+  const { status_consulta } = req.body;
   try {
     const [results] = await bd.query(update, [
       status_consulta,
-      data_consulta,
       req.params.id,
     ]);
     res.json('Consulta atualizada!');

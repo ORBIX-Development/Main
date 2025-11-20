@@ -47,14 +47,15 @@ app.post('/insert', async (req, res) => {
 
 app.put('/insert/:id', async (req, res) => {
   const update =
-    'UPDATE receitas SET farmaco=?,dosagem=?,duracao=?,instrucao=? WHERE id =?';
-  const { farmaco, dosagem, duracao, instrucao } = req.body;
+    'UPDATE receitas SET farmaco=?,dosagem=?,duracao=?,instrucao=?,id_medico=? WHERE id =?';
+  const { farmaco, dosagem, duracao, instrucao , id_medico } = req.body;
   try {
     const [results] = await bd.query(update, [
       farmaco,
       dosagem,
       duracao,
       instrucao,
+      id_medico,
       req.params.id,
     ]);
     res.json('Consulta atualizada!');
