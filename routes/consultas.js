@@ -12,6 +12,16 @@ app.get('/', async (req, res) => {
     res.status(500).send('Erro ao buscar dados da tabela (consulta)');
   }
 });
+app.get('/pendentes', async (req, res) => {
+  const select = `SELECT * FROM consultas WHERE status_consulta = 'NAO-REALIZADA'`;
+  try {
+    const [results] = await bd.query(select);
+    res.send(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Erro ao buscar dados da tabela (consulta)');
+  }
+});
 
 app.get('/:id', async (req, res) => {
   const select = 'SELECT * FROM consultas WHERE id= ?';

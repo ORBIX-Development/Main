@@ -42,6 +42,17 @@ app.get('/:id', async (req, res) => {
     res.status(500).send('Erro ao buscar dados da tabela (usuarios)!');
   }
 });
+app.get('/med/1', async (req, res) => {
+  const select =
+    `SELECT id,nome, email, cod_doc, cargo FROM usuarios WHERE cargo = 'MEDICO'`;
+  try {
+    const [results] = await bd.query(select);
+    res.send(results)
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Erro ao buscar dados da tabela (usuarios)!');
+  }
+});
 app.get('/search/:nome', async (req, res) => {
   try {
     const select = 'SELECT nome FROM usuarios WHERE nome= ?';
@@ -52,29 +63,19 @@ app.get('/search/:nome', async (req, res) => {
     res.status(500).send('Erro ao buscar dados da tabela (usuarios)!');
   }
 });
-app.get('/med', async (req, res) => {
-  const select =
-    'SELECT id,nome, email, cod_doc, cargo FROM usuarios WHERE cargo = MEDICO';
-  try {
-    const [results] = await bd.query(select, [req.params.id]);
-    res.send(results);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send('Erro ao buscar dados da tabela (usuarios)!');
-  }
-});
-app.get('/cargo', async (req, res) => {
-  const select =
-    'SELECT nome, email, cod_doc, cargo FROM usuarios WHERE cargo =  ';
-  const { cargo } = req.body;
-  try {
-    const [results] = await bd.query(select, [cargo]);
-    res.send(results);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send('Erro ao buscar dados da tabela (usuarios)!');
-  }
-});
+
+// app.get('/cargo', async (req, res) => {
+//   const select =
+//     'SELECT nome, email, cod_doc, cargo FROM usuarios WHERE cargo =  ';
+//   const { cargo } = req.body;
+//   try {
+//     const [results] = await bd.query(select, [cargo]);
+//     res.send(results);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send('Erro ao buscar dados da tabela (usuarios)!');
+//   }
+// });
 
 app.post('/register', async (req, res) => {
   const { nome, email, senha, cod_doc } = req.body;
