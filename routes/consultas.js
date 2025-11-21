@@ -24,7 +24,7 @@ app.get('/pendentes', async (req, res) => {
 });
 
 app.get('/:id', async (req, res) => {
-  const select = 'SELECT * FROM consultas WHERE id= ?';
+  const select = 'SELECT * FROM consultas WHERE id_cliente= ?';
   try {
     const [results] = await bd.query(select, [req.params.id]);
     res.send(results);
