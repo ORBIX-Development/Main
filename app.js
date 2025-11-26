@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/usuarios', usuarioRoutes);
-app.use('/atendimentos', atendimentoRoutes);
+// app.use('/atendimentos', atendimentoRoutes);
 app.use('/agendamentos', agendamentoRoutes);
 app.use('/consultas', consultaRoutes);
 app.use('/receitas', receitasRoutes);
@@ -27,3 +27,4 @@ app.use('/status', statusRoutes);
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}!`);
 });
+ 

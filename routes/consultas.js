@@ -43,7 +43,7 @@ app.get('/med/:id', async (req, res) => {
                     u2.nome
 	From consultas
 	INNER JOIN usuarios ON consultas.id_medico = usuarios.id
-  INNER JOIN usuarios u2 ON consultas.id_cliente = u2.id
+  INNER JOIN usua rios u2 ON consultas.id_cliente = u2.id
 	WHERE usuarios.id=? AND consultas.status_consulta IN('NAO-REALIZADA','REALIZADA');`;
   try {
     const [results] = await bd.query(select, [req.params.id]);

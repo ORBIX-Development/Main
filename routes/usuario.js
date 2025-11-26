@@ -157,7 +157,7 @@ app.put('/insert/cargo/:id', async (req, res) => {
     const update = await 'UPDATE usuarios SET cargo = ? WHERE id = ?';
     bd.query(update, [cargo, req.params.id]);
     res.json('Usuário Atualizado!');
-    res.json(update,cargo, req.params.id);
+    res.json(cargo, req.params.id);
   } catch (err) {
     console.error(err);
     res.status(500).send('Erro ao processar a requisição');
